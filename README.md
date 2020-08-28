@@ -6,7 +6,7 @@
 
 ## 简介
 
-`nts-router` 是基于 Typescript 装饰器和 express 开发的，故项目架构需要 Typescript 支持，整个路由配置都是依赖 express 的路由模块，`nts-router` 除了简化控制器的注入流程，还可以便捷的支持一些请求参数的转换，比如快速获取 get 的请求参数，post 请求体的某一个值。除此之外，`nts-router` 还提供便捷的中间件定义及中间件管理。通过中间件，可完成请求鉴权，数据加解密等，非业务逻辑操作。支持控制器的前置中间件和后置中间件，可以配置黑白名单，黑名单是会进入中间件的处理逻辑，白名单是绕过中间件的处理逻辑。黑名单优先级高于白名单。可针对指定的路由配置。除此之外 `nts-router` 还提供针对于中间件处理前后的优先级关系，默认都是 10 ，当不定义优先级的时候，是根据你方法顺序依次解析的。当定义优先级的情况下数字越大的优先级处理越高，可实现定义好优先级，实现多个中间件有顺序的处理。为了方便更好的上手，我提供了 Demo 示例 [nts-router-demo](https://github.com/MaxTan330/nts-router-demo)
+`nts-router` 是基于 Typescript 装饰器和 express 开发的，故项目架构需要 Typescript 支持，整个路由配置都是依赖 express 的路由模块，`nts-router` 除了简化控制器的注入流程，还可以便捷的支持一些请求参数的转换，比如快速获取 get 的请求参数，post 请求体的某一个值。除此之外，`nts-router` 还提供便捷的中间件定义及中间件管理。通过中间件，可完成请求鉴权，数据加解密等，非业务逻辑操作。支持控制器的前置中间件和后置中间件，可以配置包含排除项，包含项是会进入中间件的处理逻辑，排除项是绕过中间件的处理逻辑。包含项优先级高于排除项。可针对指定的路由配置。除此之外 `nts-router` 还提供针对于中间件处理前后的优先级关系，默认都是 10 ，当不定义优先级的时候，是根据你方法顺序依次解析的。当定义优先级的情况下数字越大的优先级处理越高，可实现定义好优先级，实现多个中间件有顺序的处理。为了方便更好的上手，我提供了 Demo 示例 [nts-router-demo](https://github.com/MaxTan330/nts-router-demo)
 
 ## nts-router 和 express 的路由
 
@@ -198,15 +198,28 @@ nts-router 的路由代码
 
 大部分中间件非异常处理不需要手动调用 send 方法，在调用完后置中间件 `nts-router` 会调用 send 方法
 
-**中间件的黑名单和白名单**
+**中间件的包含项和排除项**
 
-前置的中间件和后置中间件可通过黑白名单来配置，决定控制器需不需要经过中间件处理，如果配置在白名单里面，则不需要中间件进行处理，如果配置在黑名单，则配置名单的地址请求列表才会进入中间件进行处理。一旦配置了黑白名单，则需要手动定义中间件的优先级。针对于优先级，可以决定中间件的先后处理顺序。名单需要提供完整的地址。
+前置的中间件和后置中间件可通过包含排除项来配置，决定控制器需不需要经过中间件处理，如果配置在排除项里面，则不需要中间件进行处理，如果配置在包含项，则配置包含项的地址请求列表才会进入中间件进行处理。一旦配置了包含排除项，则需要手动定义中间件的优先级。针对于优先级，可以决定中间件的先后处理顺序。名单需要提供完整的地址。
 
-     @AfterMiddleware({
+    @AfterMiddleware({
         priority: 12,
-        blackList: ['/user/v1/getUserList'],
+        include: ['/user/v1/getUserList'],
     })
-    async test3(data: any) {
+    async test3(data: any, req: Request, res: Response, next: NextFunction) {
         data.dex = '222';
         return data;
     }
+
+包含项配置 `test3` 中间件只对 `/user/v1/getUserList` 生效
+
+    @PreMiddleware({
+        priority: 15,
+        exclude: ['/user/v1/getUserList'],
+    })
+    async test(req: Request, res: Response, next: NextFunction) {
+        req.query.text = '2';
+        next();
+    }
+
+排除项配置 `test` 中间件不对 `/user/v1/getUserList` 生效

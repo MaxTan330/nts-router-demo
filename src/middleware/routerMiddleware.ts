@@ -12,7 +12,7 @@ export class RouterMiddleware {
     constructor() {}
     @PreMiddleware({
         priority: 3,
-        whiteList: ['/user/v1/getUserList'],
+        exclude: ['/user/v1/getUserList'],
     })
     async authentication(
         @Req() req: Request,

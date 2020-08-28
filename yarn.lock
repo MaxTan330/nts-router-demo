@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@maxtan/nts-router@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@maxtan/nts-router/-/nts-router-1.0.1.tgz#709f1070879fbf9cc9f357444b09373b490c6bc9"
-  integrity sha512-VC8/YiMp7ou+D8Kmfh4CvWc29XAemvRWHU1JTYCYhnA1LUBxrsDC0ffmWlAADyVFwL8XUmbVJNOeygkm22GDEQ==
+"@maxtan/nts-router@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@maxtan/nts-router/-/nts-router-1.0.2.tgz#ff9b5a9a08f312beab877b49d66e60b7a03743fd"
+  integrity sha512-avk27T8aRn15UR1GbVLHxtOlcRNvh7rx5JwbCL9tBy/rLf4gabIjxli6vhBLP4u76c2RxBWxhRmylUrq7J2AlA==
   dependencies:
     express "^4.17.1"
     reflect-metadata "^0.1.13"
