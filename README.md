@@ -6,7 +6,7 @@
 
 ## 简介
 
-`nts-router` 是基于 Typescript 装饰器和 express 开发的，故项目架构需要 Typescript 支持，整个路由配置都是依赖 express 的路由模块，`nts-router` 除了简化控制器的注入流程，还可以便捷的支持一些请求参数的转换，比如快速获取 get 的请求参数，post 请求体的某一个值。除此之外，`nts-router` 还提供便捷的中间件定义及中间件管理。通过中间件，可完成请求鉴权，数据加解密等，非业务逻辑操作。支持控制器的前置中间件和后置中间件，可以配置黑白名单，黑名单是会进入中间件的处理逻辑，白名单是绕过中间件的处理逻辑。黑名单优先级高于白名单。可针对指定的路由配置。除此之外 `nts-router` 还提供针对于中间件处理前后的优先级关系，默认都是 10 ，当不定义优先级的时候，是根据你方法顺序依次解析的。当定义优先级的情况下数字越大的优先级处理越高，可实现定义好优先级，实现多个中间件有顺序的处理。
+`nts-router` 是基于 Typescript 装饰器和 express 开发的，故项目架构需要 Typescript 支持，整个路由配置都是依赖 express 的路由模块，`nts-router` 除了简化控制器的注入流程，还可以便捷的支持一些请求参数的转换，比如快速获取 get 的请求参数，post 请求体的某一个值。除此之外，`nts-router` 还提供便捷的中间件定义及中间件管理。通过中间件，可完成请求鉴权，数据加解密等，非业务逻辑操作。支持控制器的前置中间件和后置中间件，可以配置黑白名单，黑名单是会进入中间件的处理逻辑，白名单是绕过中间件的处理逻辑。黑名单优先级高于白名单。可针对指定的路由配置。除此之外 `nts-router` 还提供针对于中间件处理前后的优先级关系，默认都是 10 ，当不定义优先级的时候，是根据你方法顺序依次解析的。当定义优先级的情况下数字越大的优先级处理越高，可实现定义好优先级，实现多个中间件有顺序的处理。为了方便更好的上手，我提供了 Demo 示例 [nts-router-demo](https://github.com/MaxTan330/nts-router-demo)
 
 ## nts-router 和 express 的路由
 
@@ -74,7 +74,7 @@ nts-router 的路由代码
     import { ResData, AuthBodyType } from '../utils/baseTypes';
     import { CacheService } from '../services/cacheService';
     import { setErrorMsg } from '../utils/common';
-    import { Middleware, PreMiddleware, AfterMiddleware, Headers, Res, Req, Next } from '.@maxtan/nts-router';
+    import { Middleware, PreMiddleware, AfterMiddleware, Headers, Res, Req, Next } from '@maxtan/nts-router';
     import { ACCESS_TOKEN } from '../utils/constant';
     @Middleware()
     export class RouterMiddleware {
@@ -158,13 +158,13 @@ nts-router 的路由代码
 
 **其他相关**
 
-其他相关模块可以在 nts-router-demo 中查看
+其他相关模块可以在 [nts-router-demo](https://github.com/MaxTan330/nts-router-demo) 中查看
 
 ## nts-router 的进阶使用
 
 **控制器参数获取**
 
-    import { Controller, Post, Body, Get, Query } from '.@maxtan/nts-router';
+    import { Controller, Post, Body, Get, Query } from '@maxtan/nts-router';
 
     @Get('/v1/getUserList')
     async getUserList(@Query() query: any) {
